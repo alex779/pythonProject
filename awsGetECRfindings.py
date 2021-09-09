@@ -15,7 +15,7 @@ response = client.describe_image_scan_findings(
 findings = response['imageScanFindings']['findings']
 for key in findings:
 
-    if key['severity'] == "HIGH":  # or finding['severity'] == "MEDIUM" or finding['severity'] == "LOW":
+    if key['severity'] == "LOW":  # or finding['severity'] == "MEDIUM" or finding['severity'] == "LOW":
         result = {}
         result['Finding name'] = key['name']
         result['Finding Description'] = key['description']

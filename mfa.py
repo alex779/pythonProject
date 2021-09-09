@@ -14,15 +14,6 @@ for key in users['Users']:
     Groups = []
 
     result['user Name'] = key['UserName']
-    List_of_Policies = client.list_user_policies(UserName=key['UserName'])
-
-    result['Policies'] = List_of_Policies['PolicyNames']
-
-    List_of_Groups = client.list_groups_for_user(UserName=key['UserName'])
-
-    for Group in List_of_Groups['Groups']:
-        Groups.append(Group['GroupName'])
-    result['Groups'] = Groups
 
     userMfa = client.list_mfa_devices(UserName=key['UserName'])
 
@@ -34,8 +25,7 @@ for key in users['Users']:
         if key['UserName'] in virtualEnabled:
             mfa_users.append(key['UserName'])
             result['MFA'] = 'enabled'
-
-    user_list.append(result)
+            user_list.append(result)
 
 for key in user_list:
     print(key)
