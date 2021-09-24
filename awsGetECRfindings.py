@@ -16,10 +16,8 @@ findings = response['imageScanFindings']['findings']
 for key in findings:
 
     if key['severity'] == "LOW":  # or finding['severity'] == "MEDIUM" or finding['severity'] == "LOW":
-        result = {}
-        result['Finding name'] = key['name']
-        result['Finding Description'] = key['description']
-        result['Finding Severity'] = key['severity']
+        result = {'Finding name': key['name'], 'Finding Description': key['description'],
+                  'Finding Severity': key['severity']}
         # results.append(finding['name'] + finding['description'] + finding['severity'])
         findings_list.append(result)
         print(key)
