@@ -39,7 +39,7 @@ def lambda_handler(event, context):
     <body>
     <h1>Hello!</h1>
     <p>Please review the actual list of Public IP addresses 
-    that associated with Bintel AWS account (ID: 800161095412)</p>
+    that associated with Inveniam AWS account (ID: 800161095412)</p>
     </body>
     </html>
     """
