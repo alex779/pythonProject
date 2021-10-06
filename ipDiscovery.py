@@ -7,6 +7,11 @@ from email.mime.text import MIMEText
 import boto3
 from botocore.exceptions import ClientError
 
+# session = boto3.Session(profile_name='bintel')
+# region = "us-east-2"
+# ec2 = session.client('ec2', region_name=region)
+# response = ec2.describe_network_interfaces()
+
 ec2 = boto3.client('ec2')
 
 ip_list = []
@@ -26,7 +31,7 @@ def lambda_handler(event, context):
 
     # The email body for recipients with non-HTML email clients.
     BODY_TEXT = "Hello,\r\nPlease review the actual list of Public IP addresses " \
-                "that associated with Bintel AWS account (ID: 800161095412)"
+                "that associated with Inveniam AWS account (ID: 800161095412)"
     # The HTML body of the email.
     BODY_HTML = """\
     <html>
@@ -45,7 +50,7 @@ def lambda_handler(event, context):
     # Add subject, from and to lines.
     recipients = ['oleksandr.gusiev@dev.pro', 'roman.hanzia@dev.pro']
     msg['Subject'] = 'Bintel IP discovery'
-    msg['From'] = "IT-request@inveniam.io"
+    msg['From'] = "no-reply@inveniam.io"
     msg['To'] = ", ".join(recipients)
     msg_body = MIMEMultipart('alternative')
     textpart = MIMEText(BODY_TEXT.encode(CHARSET), 'plain', CHARSET)
