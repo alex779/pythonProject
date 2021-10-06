@@ -49,7 +49,7 @@ def lambda_handler(event, context):
     msg = MIMEMultipart('mixed')
     # Add subject, from and to lines.
     recipients = ['oleksandr.gusiev@dev.pro', 'roman.hanzia@dev.pro']
-    msg['Subject'] = 'Bintel IP discovery'
+    msg['Subject'] = 'Inveniam AWS Public IPs discovery'
     msg['From'] = "no-reply@inveniam.io"
     msg['To'] = ", ".join(recipients)
     msg_body = MIMEMultipart('alternative')
