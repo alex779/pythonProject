@@ -23,26 +23,21 @@ def lambda_handler(event, context):
                 if (age > 90) \
                         and (username.partition("@")[2] == "dev.pro" or username.partition("@")[2] == "dev-pro.net"):
                     print("Access key ", key['AccessKeyId'], " for user ", username,
-                          " is older than 90 days. Deactivating...")
-                    iam.update_access_key(
-                        UserName=username,
-                        AccessKeyId=key['AccessKeyId'],
-                        Status="Inactive"
-                    )
-                    print("Access key for ", username, " has been deactivated")
+                          " is expiring. Sending out notification")
                     user_list.append(username)
 
+    RECIPIENTS = {'ToAddresses': user_list}
     SENDER = "no-reply@inveniam.io"
     AWS_REGION = "us-east-1"
     SUBJECT = "IAM Access Key Rotation"
     BODY_TEXT = \
-        ("Your IAM Access Key for <ACCOUNT ID> expired and has been deactivated.\r\n"
-         "Log into AWS and go to your IAM user to rotate API key or re-activate it:"
+        ("Your IAM Access Key for <ACCOUNT ID> is expiring in a few days and will be deactivated.\r\n"
+         "Log into AWS and go to your IAM user to rotate API key:"
          " https://console.aws.amazon.com/iam/home?#security_credential")
     BODY_HTML = """
-                        Your IAM Access Key need to be rotated in AWS Account: <ACCOUNT ID> as it has expired. 
+                        Your IAM Access Key need to be rotated in AWS Account: <ACCOUNT ID> as it is expiring soon. 
                         Log into AWS and go to your https://console.aws.amazon.com/iam/home?#security_credential 
-                        to create a new set of keys or re-activate the old one. 
+                        to create a new set of keys. 
                         Ensure to disable / remove your previous key pair in case a new pair is generated.
                                     """
     CHARSET = "UTF-8"
@@ -50,7 +45,7 @@ def lambda_handler(event, context):
     try:
         response = client.send_email(
             Destination={
-                'ToAddresses': user_list,
+                'ToAddresses': RECIPIENTS,
             },
             Message={
                 'Body': {
