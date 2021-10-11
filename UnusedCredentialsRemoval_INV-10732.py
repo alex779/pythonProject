@@ -43,12 +43,15 @@ def lambda_handler(event, context):
                         print('An error occurred while deleting login profile.', error)
                         pass
 
-        RECIPIENTS = {'ToAddresses': user_list}
         SENDER = "no-reply@inveniam.io"
-        AWS_REGION = os.environ['region']
+        AWS_REGION = "us-east-1"
         SUBJECT = "IAM Password expiration"
-        BODY_TEXT = "Text here"
+        BODY_TEXT = \
+            ("Your IAM credentials for <ACCOUNT ID> expired and have been deactivated.\r\n"
+             "Please contact IT-request@inveniam.io if you would like to restore access")
         BODY_HTML = """
+                            Your IAM credentials for <ACCOUNT ID> expired and have been deactivated.
+                            Please contact IT-request@inveniam.io if you would like to restore access"
                     
                                 """
         CHARSET = "UTF-8"
@@ -56,7 +59,7 @@ def lambda_handler(event, context):
         try:
             response = client.send_email(
                 Destination={
-                    'ToAddresses': RECIPIENTS,
+                    'ToAddresses': user_list,
                 },
                 Message={
                     'Body': {

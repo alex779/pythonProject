@@ -33,12 +33,11 @@ def lambda_handler(event, context):
                     print("Access key for ", username, " has been deactivated")
                     user_list.append(username)
 
-    RECIPIENTS = {'ToAddresses': user_list}
     SENDER = "no-reply@inveniam.io"
-    AWS_REGION = os.environ['region']  # IT-request@inveniam.io
+    AWS_REGION = "us-east-1"
     SUBJECT = "IAM Access Key Rotation"
     BODY_TEXT = \
-        ("Your IAM Access Key for <ACCOUNT ID> is expired and has been deactivated.\r\n"
+        ("Your IAM Access Key for <ACCOUNT ID> expired and has been deactivated.\r\n"
          "Log into AWS and go to your IAM user to rotate API key or re-activate it:"
          " https://console.aws.amazon.com/iam/home?#security_credential")
     BODY_HTML = """
@@ -52,7 +51,7 @@ def lambda_handler(event, context):
     try:
         response = client.send_email(
             Destination={
-                'ToAddresses': RECIPIENTS,
+                'ToAddresses': user_list,
             },
             Message={
                 'Body': {
