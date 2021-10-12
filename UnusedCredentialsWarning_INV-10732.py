@@ -33,16 +33,8 @@ def lambda_handler(event, context):
                 login_profiles_to_remove.append(user['UserName'])
 
                 for user_name in login_profiles_to_remove:
-                    print('Attempting to remove login profile for {0}'.format(user_name))
-                    try:
-                        iam_client.delete_login_profile(
-                            UserName=user_name
-                        )
-                        print('User {0} login profile has been removed'.format(user_name))
-                        user_list.append(user_name)
-                    except ClientError as error:
-                        print('An error occurred while deleting login profile.', error)
-                        pass
+                    print('Sending password renewal notification to {0}'.format(user_name))
+                    user_list.append(user_name)
 
         RECIPIENTS = {'ToAddresses': user_list}
         SENDER = "no-reply@inveniam.io"
