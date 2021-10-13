@@ -1,7 +1,6 @@
-import sys
-import boto3
 import time
-import os
+
+import boto3
 from botocore.exceptions import ClientError
 
 iam = boto3.client("iam")

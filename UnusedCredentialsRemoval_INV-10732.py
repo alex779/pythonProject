@@ -1,4 +1,3 @@
-import os
 from datetime import datetime
 
 import boto3
@@ -27,8 +26,8 @@ def lambda_handler(event, context):
 
             difference = date_now - last_used_date
 
-            if difference.days > max_idle_days and username.partition("@")[2] == "dev.pro" \
-                    or username.partition("@")[2] == "dev-pro.net":
+            if (difference.days > max_idle_days) and (username.partition("@")[2] == "dev.pro" \
+                    or username.partition("@")[2] == "dev-pro.net"):
                 login_profiles_to_remove.append(user['UserName'])
 
                 for user_name in login_profiles_to_remove:

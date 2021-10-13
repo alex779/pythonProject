@@ -1,9 +1,9 @@
-import sys
-import boto3
 import time
-import os
+
+import boto3
 from botocore.exceptions import ClientError
 
+sns = boto3.client('sns')
 iam = boto3.client("iam")
 user_list = []
 max_items = 500
@@ -20,13 +20,12 @@ def lambda_handler(event, context):
             now = time.time()
             age = (now - create_date) // 86400
             if key['Status'] == 'Active':
-                if (age > 90) \
+                if (85 < age < 90) \
                         and (username.partition("@")[2] == "dev.pro" or username.partition("@")[2] == "dev-pro.net"):
                     print("Access key ", key['AccessKeyId'], " for user ", username,
                           " is expiring. Sending out notification")
                     user_list.append(username)
 
-    RECIPIENTS = {'ToAddresses': user_list}
     SENDER = "no-reply@inveniam.io"
     AWS_REGION = "us-east-1"
     SUBJECT = "IAM Access Key Rotation"
@@ -45,7 +44,7 @@ def lambda_handler(event, context):
     try:
         response = client.send_email(
             Destination={
-                'ToAddresses': RECIPIENTS,
+                'ToAddresses': user_list,
             },
             Message={
                 'Body': {
