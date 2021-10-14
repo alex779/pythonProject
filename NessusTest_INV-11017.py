@@ -6,14 +6,14 @@ import time
 # Turn off certificate warnings
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
-accessKey = "a1b2c3d4e5"
-secretKey = "f6g7h8i9j0"
+accessKey = ""
+secretKey = ""
 headers = {"Content-type": "application/json", "X-ApiKeys": "accessKey=" + accessKey + "; secretKey=" + secretKey}
 
 # Get fileid and token
 
-scanid = 43  # Since we already know which scan we want this can be hardcoded for now
-scanurl = "https://localhost:8834/scans/" + str(scanid) + "/export"
+scanid = 2844  # Since we already know which scan we want this can be hardcoded for now
+scanurl = "https://explorer.dev-pro.net/#/scans/folders/946/" + str(scanid) + "/export"
 scanpld = {"format": "nessus"}
 results = requests.post(scanurl, headers=headers, data=json.dumps(scanpld), verify=False).json()
 scanreq = json.loads(json.dumps(results, indent=2, sort_keys=True))
