@@ -9,8 +9,8 @@ max_items = 500  # Maximum number of user accounts to put in a list
 
 
 def lambda_handler(event, context):
-    key_warn()  # Invoke key renewal notification
-    key_deactivate()  # Invoke key deactivation
+    key_warn()  # Invoking key renewal notification
+    key_deactivate()  # Invoking key deactivation
 
 
 def key_warn():
